@@ -88,6 +88,13 @@ export default {
     },
     loadUsers(page) {
       console.log(`Загрузка пользователей, страница - ${page}`)
+    }
+    
+
+  },
+  watch: {
+    currentPage(page) {
+      this.loadUsers(page)
     },
     increaseCount(page) {
       if (this.page < 1) {
@@ -99,13 +106,6 @@ export default {
         this.page--
      }
     }
-
-  },
-  watch: {
-    currentPage(page) {
-      this.loadUsers(page)
-    },
-   
     
   }
 }
