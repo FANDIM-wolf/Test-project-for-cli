@@ -1,42 +1,114 @@
 <template>
-	<div class="root">
-	<label>
-	Enter email:
-	<input type="email" v-bind:value="email" @input="emailInput($event.target.value)" name=""> 	
-	</label>
-	<label>
-	Enter password:
-	<input type="password" v-bind:value="password" @input="passwordInput($event.target.value)" name=""> 	
-	</label>
-	<br>
-	<button @click="count--">-</button>
-	<input type="number" v-bind:value="count"  name="">
-    <button @click="count++">+</button>
-
-
-		
-	</div>
+  <div class="conatiner">
+    <div class="user-card">
+      <h1>Научу зарабатывать от 50 000р. в час</h1>
+      <div class="main-information flex">
+        
+        <div class="info">
+          <h2>{{ getAuthorFullName }}</h2>
+          <strong>Бизнес-коуч</strong>
+          <ul class="list">
+            <li>Учу делать РЕАЛЬНЫЕ бабки, на себя просто не хватило времени</li>
+            <li>НЕ знаю, что такое "Успешный Успех", но знаю, что нужно ТЕБЕ!</li>
+            <li>Пообещал, что побреюсь, когда кого-нибудь ОБМАНУ.</li>
+          </ul>
+        </div>
+      </div>
+      <p>Участников: {{ users.length }}</p>
+      <ul class="list">
+        <li
+          v-for="(user, index) in users"
+          :key="index"
+        >
+          {{ `${index + 1}. ${getFullName(user)}` }}
+        </li>
+      </ul>
+      <button
+        type="button"
+        @click="currentPage--"
+      >
+        Пред.
+      </button>
+      <button
+        type="button"
+        v-for="page in pages"
+        :key="page"
+        @click="currentPage = page"
+      >
+        {{ page }}
+      </button>
+      <button
+        type="button"
+        @click="currentPage++"
+      >
+        След.
+      </button>
+      <p>Страница: {{ currentPage }} из {{ pages }}</p>
+    </div>
+  </div>
 </template>
 
-<script >
-	export default{
-		name: 'Mycomponent',
-		data(){
-               
-        return{text:"Lafore",
-               email:'example@mail.ru',
-               password:'12345678',
-               count:0
+<script>
+export default {
+  name: 'UserCard',
+  data() {
+    return {
+      firstName: 'Игнатий',
+      secondName: 'Иларионович',
+      lastName: 'Богатов',
+      users: [
+        {
+          firstName: 'Игнатий',
+          secondName: 'Иларионович',
+          lastName: 'Богатов'
+        },
+        {
+          firstName: 'Игнатий',
+          secondName: 'Иларионович',
+          lastName: 'Богатов'
+        },
+        {
+          firstName: 'Игнатий',
+          secondName: 'Иларионович',
+          lastName: 'Богатов'
+        }
+      ],
+      pages: 3,
+      currentPage: 1
     }
-	},
-	methods:{
-		emailInput(value){
-           this.email= value //new value of email
-		},
-		passwordInput(value){
-			this.password = value
-		}
-	}
+  },
+  computed: {
+    getAuthorFullName() {
+      return `${this.firstName} ${this.secondName} ${this.lastName}`.toUpperCase()
+    }
+  },
+  methods: {
+    getFullName(user) {
+      return `${user.firstName} ${user.secondName} ${user.lastName}`
+    },
+    loadUsers(page) {
+      console.log(`Загрузка пользователей, страница - ${page}`)
+    },
+    increaseCount(page) {
+      if (this.page < 1) {
+        this.page++
+      }
+    },
+    decreaseCount(page) {
+      if (this.page > 3) {
+        this.page--
+     }
+    }
 
+  },
+  watch: {
+    currentPage(page) {
+      this.loadUsers(page)
+    },
+   
+    
+  }
 }
 </script>
+
+
